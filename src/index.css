@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Custom properties ─────────────────────────────── */
+:root {
+  --color-gold: #C8963E;
+  --color-brown: #000000;
+  --color-cream: #FAF6F0;
+  --color-terracotta: #8D1B3D;
+  --color-crimson: #8D1B3D;
+  --color-text-dark: #111111;
+}
+
+/* ─── Smooth scroll ──────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Typography: Arabic (default) ──────────────────── */
+body {
+  font-family: 'Tajawal', sans-serif;
+  background-color: var(--color-cream);
+  color: var(--color-text-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Typography: English ────────────────────────────── */
+html[dir="ltr"] body {
+  font-family: 'Inter', sans-serif;
+}
+
+html[dir="ltr"] h1,
+html[dir="ltr"] h2,
+html[dir="ltr"] h3,
+html[dir="ltr"] h4,
+html[dir="ltr"] h5 {
+  font-family: 'Playfair Display', serif;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 999px;
+}
+
+/* ─── Section utility ────────────────────────────────── */
+@layer components {
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold text-brown-light leading-tight;
+  }
+
+  html[dir="ltr"] .section-title {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .section-subtitle {
+    @apply text-base md:text-lg text-brown-mid opacity-70 mt-3;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-crimson text-white font-bold
+           text-sm tracking-wide transition-all duration-300
+           hover:bg-crimson-light hover:shadow-lg hover:shadow-crimson/30 hover:-translate-y-0.5
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-crimson;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-7 py-3.5 rounded-full border-2 border-cream text-cream font-bold
+           text-sm tracking-wide transition-all duration-300
+           hover:bg-cream hover:text-brown hover:shadow-lg
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream;
+  }
+
+  .gold-divider {
+    @apply w-16 h-0.5 bg-gold mx-auto my-4;
+  }
+}
+
+/* ─── Tab scrollbar hide ─────────────────────────────── */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Card hover glow ────────────────────────────────── */
+.menu-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.menu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(200, 150, 62, 0.15);
+}

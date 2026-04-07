@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "home": "Home",
+    "menu": "Menu",
+    "about": "About",
+    "locations": "Locations",
+    "orderNow": "Order Now",
+    "logo": "Chef Alfreej"
+  },
+  "hero": {
+    "headline": "Authentic Qatari Cuisine",
+    "headlineAccent": "with a Modern Touch",
+    "subheadline": "An extraordinary dining experience blending Gulf heritage with refined Mediterranean flavors",
+    "ctaOrder": "Order Now",
+    "ctaMenu": "View Menu",
+    "ctaCall": "Call the Chef",
+    "scrollDown": "Explore More"
+  },
+  "features": {
+    "item1Title": "Open Until 4 AM",
+    "item1Desc": "Serving through the night",
+    "item2Title": "6 Locations in Qatar",
+    "item2Desc": "Across Doha and surrounding areas",
+    "item3Title": "Dine-in & Delivery",
+    "item3Desc": "Experience us your way",
+    "item4Title": "4.3 ⭐ Rating",
+    "item4Desc": "From thousands of valued guests"
+  },
+  "menu": {
+    "title": "Our Menu",
+    "subtitle": "Discover our finest Qatari and Mediterranean dishes",
+    "categories": {
+      "all": "All",
+      "appetizers": "Appetizers",
+      "salads": "Salads",
+      "heritage": "Heritage Dishes",
+      "azeema": "Azeema Meals",
+      "pasta": "Pasta",
+      "sea": "Sea Meals",
+      "sweets": "Sweets",
+      "drinks": "Drinks"
+    },
+    "qr": "QR",
+    "marketPrice": "Market Price",
+    "promoLabel": "Offer",
+    "was": "Was"
+  },
+  "about": {
+    "title": "Our Story",
+    "subtitle": "Chef Alfreej",
+    "badge": "Authentic Qatari Restaurant",
+    "story1": "Chef Alfreej blends the authenticity of Qatari cuisine with Khaliji flair, delivering an unforgettable dining experience.",
+    "story2": "We believe great food brings people together, telling ancestral stories in a refined, contemporary style. Every dish is a celebration of Gulf heritage and an open invitation to all who love authentic flavors.",
+    "stat1Value": "4.7",
+    "stat1Label": "Guest Rating",
+    "stat3Value": "4 AM",
+    "stat3Label": "Open Until",
+    "stat4Value": "2017",
+    "stat4Label": "Est. Since"
+  },
+  "locations": {
+    "title": "Our Locations",
+    "subtitle": "We're near you across Qatar",
+    "getDirections": "Get Directions",
+    "mapNote": "Replace this with a Google Maps iframe — src=\"https://maps.google.com/maps?q=Chef+Alfreej+Qatar\""
+  },
+  "order": {
+    "title": "Order via Delivery Partners",
+    "subtitle": "Fast delivery to your door",
+    "description": "Enjoy your favorite Chef Alfreej meals at home. Delivery in approximately 35 minutes to most areas across Qatar.",
+    "button": "Order Now",
+    "badge1": "Delivery in ~35 min",
+    "badge3": "Open Until 4 AM"
+  },
+  "footer": {
+    "tagline": "Qatari authenticity, unforgettable taste",
+    "quickLinks": "Quick Links",
+    "followUs": "Follow Us",
+    "contact": "Contact Us",
+    "phone": "+974 XXXX XXXX",
+    "copyright": "© 2025 Chef Alfreej. All rights reserved.",
+    "builtWith": "Built with ❤️ in Qatar"
+  }
+}
