@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { getOrders } from '../utils/storage';
+import { useState, useEffect } from 'react';
+import { fetchOrders } from '../utils/storage';
 
 const PAYMENT_LABEL = {
   cash: 'Cash or Fawran',
@@ -14,8 +14,11 @@ function fmt(iso) {
 export default function OrderHistory() {
   const today = new Date().toISOString().slice(0, 10);
   const [selectedDate, setSelectedDate] = useState(today);
+  const [allOrders, setAllOrders] = useState([]);
 
-  const allOrders = useMemo(() => getOrders(), []);
+  useEffect(() => {
+    fetchOrders().then(orders => setAllOrders(orders));
+  }, []);
 
   const dayOrders = useMemo(
     () => allOrders.filter(o => o.timestamp.startsWith(selectedDate)).reverse(),

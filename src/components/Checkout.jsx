@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../hooks/useLanguage';
+import { postOrder } from '../admin/utils/storage';
 
 const DELIVERY_FEE = 10;
 const PAY_LATER_THRESHOLD = 800;
@@ -110,8 +111,8 @@ const Checkout = () => {
       status: 'pending',
     };
 
-    const existing = JSON.parse(localStorage.getItem('kitchen_orders') ?? '[]');
-    localStorage.setItem('kitchen_orders', JSON.stringify([...existing, order]));
+    // Send order to server API
+    postOrder(order);
 
     setStep('confirmed');
   };

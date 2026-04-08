@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getOrders, saveOrders } from '../utils/storage';
+import { fetchOrders, updateOrderStatus } from '../utils/storage';
 import { enableSound, isSoundEnabled, playOrderChime } from '../utils/sound';
 
 const STATUS_STEPS = ['pending', 'preparing', 'ready', 'completed'];
@@ -29,8 +29,8 @@ export default function LiveOrders() {
   const [soundOn, setSoundOn] = useState(isSoundEnabled);
   const prevPendingRef = useRef(0);
 
-  const refresh = () => {
-    const all = getOrders();
+  const refresh = async () => {
+    const all = await fetchOrders();
     const active = all.filter(o => o.status !== 'completed').reverse();
     setOrders(active);
 
@@ -43,18 +43,17 @@ export default function LiveOrders() {
 
   useEffect(() => {
     refresh();
-    const id = setInterval(refresh, 2000);
+    const id = setInterval(refresh, 3000);
     return () => clearInterval(id);
   }, []);
 
-  const advanceStatus = (orderId) => {
-    const all = getOrders();
-    const updated = all.map(o => {
-      if (o.id !== orderId) return o;
-      const idx = STATUS_STEPS.indexOf(o.status);
-      return { ...o, status: STATUS_STEPS[Math.min(idx + 1, STATUS_STEPS.length - 1)] };
-    });
-    saveOrders(updated);
+  const advanceStatus = async (orderId) => {
+    const all = await fetchOrders();
+    const order = all.find(o => o.id === orderId);
+    if (!order) return;
+    const idx = STATUS_STEPS.indexOf(order.status);
+    const newStatus = STATUS_STEPS[Math.min(idx + 1, STATUS_STEPS.length - 1)];
+    await updateOrderStatus(orderId, newStatus);
     refresh();
   };
 

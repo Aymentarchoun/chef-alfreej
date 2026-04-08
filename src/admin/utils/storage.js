@@ -13,8 +13,59 @@ const KEYS = {
 
 export { KEYS };
 
-// ─── Orders ──────────────────────────────────────────────────────────────────
+// ─── API base URL ────────────────────────────────────────────────────────────
+const API_URL = '/api/orders.php';
 
+// ─── Orders (API-backed) ────────────────────────────────────────────────────
+
+export async function fetchOrders() {
+  try {
+    const res = await fetch(API_URL);
+    if (!res.ok) throw new Error('API error');
+    return await res.json();
+  } catch {
+    // Fallback to localStorage if API not available
+    try { return JSON.parse(localStorage.getItem(KEYS.ORDERS) ?? '[]'); } catch { return []; }
+  }
+}
+
+export async function postOrder(order) {
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(order),
+    });
+    if (!res.ok) throw new Error('API error');
+    return await res.json();
+  } catch {
+    // Fallback: save to localStorage
+    const orders = getOrders();
+    orders.push(order);
+    saveOrders(orders);
+    return { success: true, fallback: true };
+  }
+}
+
+export async function updateOrderStatus(id, status) {
+  try {
+    const res = await fetch(API_URL, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status }),
+    });
+    if (!res.ok) throw new Error('API error');
+    return await res.json();
+  } catch {
+    // Fallback: update in localStorage
+    const orders = getOrders();
+    const idx = orders.findIndex(o => o.id === id);
+    if (idx !== -1) { orders[idx].status = status; saveOrders(orders); }
+    return { success: true, fallback: true };
+  }
+}
+
+// Keep sync versions as fallback
 export function getOrders() {
   try { return JSON.parse(localStorage.getItem(KEYS.ORDERS) ?? '[]'); } catch { return []; }
 }
