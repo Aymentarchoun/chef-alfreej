@@ -8,7 +8,7 @@ import './index.css';
 
 const isAdmin = window.location.pathname.startsWith('/admin');
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     {isAdmin ? (
       <AdminApp />

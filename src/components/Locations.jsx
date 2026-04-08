@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../hooks/useLanguage';
 
-const Locations: React.FC = () => {
+const Locations = () => {
   const { isArabic } = useLanguage();
 
   return (

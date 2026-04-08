@@ -30,7 +30,7 @@ const badges = [
   { icon: '🌙', key: 'order.badge3' },
 ];
 
-const OrderCTA: React.FC = () => {
+const OrderCTA = () => {
   const { t } = useTranslation();
   const { isArabic } = useLanguage();
 

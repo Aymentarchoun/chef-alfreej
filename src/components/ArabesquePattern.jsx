@@ -1,12 +1,6 @@
 import React from 'react';
 
-interface ArabesquePatternProps {
-  className?: string;
-  opacity?: number;
-  color?: string;
-}
-
-const ArabesquePattern: React.FC<ArabesquePatternProps> = ({
+const ArabesquePattern = ({
   className = '',
   opacity = 0.07,
   color = 'currentColor',

@@ -46,7 +46,7 @@ const features = [
   },
 ];
 
-const FeaturesBar: React.FC = () => {
+const FeaturesBar = () => {
   const { t } = useTranslation();
 
   return (

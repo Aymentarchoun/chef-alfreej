@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
-import { AdminSession, getUsers, saveUsers } from '../AdminApp';
+import { useState } from 'react';
+import { getUsers, saveUsers } from '../AdminApp';
 
-interface Props {
-  session: AdminSession;
-  updateSession: (s: AdminSession) => void;
-}
 
-export default function UserSettings({ session, updateSession }: Props) {
+export default function UserSettings({ session, updateSession }) {
   const [displayName, setDisplayName] = useState(session.displayName);
   const [currentPw, setCurrentPw]     = useState('');
   const [newPw, setNewPw]             = useState('');
@@ -16,7 +12,7 @@ export default function UserSettings({ session, updateSession }: Props) {
   const [nameErr, setNameErr]         = useState(false);
   const [pwErr, setPwErr]             = useState(false);
 
-  const saveName = (e: React.FormEvent) => {
+  const saveName = (e) => {
     e.preventDefault();
     if (!displayName.trim()) { setNameErr(true); setNameMsg('Name cannot be empty.'); return; }
     const users = getUsers();
@@ -28,7 +24,7 @@ export default function UserSettings({ session, updateSession }: Props) {
     setNameMsg('Display name updated.');
   };
 
-  const savePassword = (e: React.FormEvent) => {
+  const savePassword = (e) => {
     e.preventDefault();
     const users = getUsers();
     const user  = users[session.username];

@@ -1,84 +1,3 @@
-// ─── Order types ────────────────────────────────────────────────────────────
-
-export interface OrderItem {
-  id: string;
-  nameAr: string;
-  nameEn: string;
-  emoji: string;
-  price: number;
-  quantity: number;
-}
-
-export interface Order {
-  id: string;
-  timestamp: string;
-  items: OrderItem[];
-  deliveryMethod: 'pickup' | 'delivery';
-  customer: {
-    name: string;
-    phone: string;
-    location?: string;
-    coords?: { lat: number; lng: number };
-  };
-  paymentMethod: 'cash' | 'card' | 'pay_later';
-  subtotal: number;
-  deliveryFee: number;
-  total: number;
-  status: 'pending' | 'preparing' | 'ready' | 'completed';
-}
-
-// ─── Menu overrides & additions ──────────────────────────────────────────────
-
-export interface MenuOverride {
-  nameAr?: string;
-  nameEn?: string;
-  descriptionAr?: string;
-  descriptionEn?: string;
-  price?: number | 'market';
-  promoPrice?: number | null;
-  emoji?: string;
-  image?: string;
-}
-
-export interface AddedItem {
-  id: string;
-  nameAr: string;
-  nameEn: string;
-  descriptionAr: string;
-  descriptionEn: string;
-  price: number | 'market';
-  promoPrice?: number;
-  emoji: string;
-  image?: string;
-  category: string;
-  subcategory: string;
-}
-
-// ─── Admin users ─────────────────────────────────────────────────────────────
-
-export interface StoredUser {
-  password: string;
-  role: 'kitchen' | 'manager';
-  displayName: string;
-}
-
-// ─── Custom sections & subcategories ─────────────────────────────────────────
-
-export interface CustomSection {
-  key: string;
-  nameAr: string;
-  nameEn: string;
-  icon: string;
-}
-
-export interface CustomSubcategory {
-  key: string;
-  nameAr: string;
-  nameEn: string;
-  icon: string;
-  sectionKey: string;
-}
-
 // ─── Storage keys ─────────────────────────────────────────────────────────────
 
 const KEYS = {
@@ -90,84 +9,84 @@ const KEYS = {
   SESSION: 'chef-admin-session',
   CUSTOM_SECTIONS: 'chef-custom-sections',
   CUSTOM_SUBCATS: 'chef-custom-subcategories',
-} as const;
+};
 
 export { KEYS };
 
 // ─── Orders ──────────────────────────────────────────────────────────────────
 
-export function getOrders(): Order[] {
+export function getOrders() {
   try { return JSON.parse(localStorage.getItem(KEYS.ORDERS) ?? '[]'); } catch { return []; }
 }
 
-export function saveOrders(orders: Order[]) {
+export function saveOrders(orders) {
   localStorage.setItem(KEYS.ORDERS, JSON.stringify(orders));
 }
 
 // ─── Availability ────────────────────────────────────────────────────────────
 
-export function getAvailability(): Record<string, boolean> {
+export function getAvailability() {
   try { return JSON.parse(localStorage.getItem(KEYS.AVAILABILITY) ?? '{}'); } catch { return {}; }
 }
 
-export function saveAvailability(map: Record<string, boolean>) {
+export function saveAvailability(map) {
   localStorage.setItem(KEYS.AVAILABILITY, JSON.stringify(map));
 }
 
 // ─── Overrides ───────────────────────────────────────────────────────────────
 
-export function getOverrides(): Record<string, MenuOverride> {
+export function getOverrides() {
   try { return JSON.parse(localStorage.getItem(KEYS.OVERRIDES) ?? '{}'); } catch { return {}; }
 }
 
-export function saveOverrides(map: Record<string, MenuOverride>) {
+export function saveOverrides(map) {
   localStorage.setItem(KEYS.OVERRIDES, JSON.stringify(map));
 }
 
 // ─── Additions ───────────────────────────────────────────────────────────────
 
-export function getAdditions(): AddedItem[] {
+export function getAdditions() {
   try { return JSON.parse(localStorage.getItem(KEYS.ADDITIONS) ?? '[]'); } catch { return []; }
 }
 
-export function saveAdditions(items: AddedItem[]) {
+export function saveAdditions(items) {
   localStorage.setItem(KEYS.ADDITIONS, JSON.stringify(items));
 }
 
 // ─── Custom sections ─────────────────────────────────────────────────────────
 
-export function getCustomSections(): CustomSection[] {
+export function getCustomSections() {
   try { return JSON.parse(localStorage.getItem(KEYS.CUSTOM_SECTIONS) ?? '[]'); } catch { return []; }
 }
 
-export function saveCustomSections(items: CustomSection[]) {
+export function saveCustomSections(items) {
   localStorage.setItem(KEYS.CUSTOM_SECTIONS, JSON.stringify(items));
 }
 
 // ─── Custom subcategories ─────────────────────────────────────────────────────
 
-export function getCustomSubcategories(): CustomSubcategory[] {
+export function getCustomSubcategories() {
   try { return JSON.parse(localStorage.getItem(KEYS.CUSTOM_SUBCATS) ?? '[]'); } catch { return []; }
 }
 
-export function saveCustomSubcategories(items: CustomSubcategory[]) {
+export function saveCustomSubcategories(items) {
   localStorage.setItem(KEYS.CUSTOM_SUBCATS, JSON.stringify(items));
 }
 
 // ─── Users ────────────────────────────────────────────────────────────────────
 
-export const DEFAULT_USERS: Record<string, StoredUser> = {
+export const DEFAULT_USERS = {
   kitchen: { password: 'Kitchen2017', role: 'kitchen', displayName: 'Kitchen' },
   manager: { password: 'Chefalfreej2017', role: 'manager', displayName: 'Manager' },
 };
 
-export function getUsers(): Record<string, StoredUser> {
+export function getUsers() {
   try {
     const stored = localStorage.getItem(KEYS.USERS);
     return stored ? { ...DEFAULT_USERS, ...JSON.parse(stored) } : DEFAULT_USERS;
   } catch { return DEFAULT_USERS; }
 }
 
-export function saveUsers(users: Record<string, StoredUser>) {
+export function saveUsers(users) {
   localStorage.setItem(KEYS.USERS, JSON.stringify(users));
 }

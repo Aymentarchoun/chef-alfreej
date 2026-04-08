@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../hooks/useLanguage';
 
-const Logo: React.FC<{ className?: string }> = ({ className = '' }) => (
+const Logo = ({ className = '' }) => (
   <img
     src="/logo.png"
     alt="Chef Alfreej"
@@ -50,11 +50,11 @@ const phoneNumbers = [
   { number: '+97474466445', labelAr: 'الإدارة', labelEn: 'Management' },
 ];
 
-const Footer: React.FC = () => {
+const Footer = () => {
   const { t } = useTranslation();
   const { isArabic } = useLanguage();
 
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (href) => {
     if (href.startsWith('#')) {
       const el = document.querySelector(href);
       if (el) el.scrollIntoView({ behavior: 'smooth' });

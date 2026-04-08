@@ -12,7 +12,7 @@ const stagger = {
   show: { transition: { staggerChildren: 0.18 } },
 };
 
-const Hero: React.FC = () => {
+const Hero = () => {
   const { t } = useTranslation();
 
   const scrollToMenu = () => {

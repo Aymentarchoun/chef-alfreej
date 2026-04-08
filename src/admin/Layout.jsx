@@ -1,22 +1,13 @@
 import React, { useState } from 'react';
-import { AdminSession, Page } from './AdminApp';
 
-interface Props {
-  session: AdminSession;
-  page: Page;
-  setPage: (p: Page) => void;
-  onLogout: () => void;
-  children: React.ReactNode;
-}
-
-const kitchenNav: { key: Page; label: string; icon: string }[] = [
+const kitchenNav = [
   { key: 'orders',   label: 'Live Orders',    icon: '🔴' },
   { key: 'menu',     label: 'Menu',           icon: '📋' },
   { key: 'history',  label: 'Order History',  icon: '📜' },
   { key: 'settings', label: 'Settings',       icon: '⚙️'  },
 ];
 
-const managerNav: { key: Page; label: string; icon: string }[] = [
+const managerNav = [
   ...kitchenNav,
   { key: 'management', label: 'Management', icon: '🛠️' },
 ];
@@ -28,7 +19,7 @@ const S = {
   gold:     '#C8963E',
 };
 
-export default function Layout({ session, page, setPage, onLogout, children }: Props) {
+export default function Layout({ session, page, setPage, onLogout, children }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const nav = session.role === 'manager' ? managerNav : kitchenNav;
 

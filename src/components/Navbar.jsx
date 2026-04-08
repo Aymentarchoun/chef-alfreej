@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../hooks/useLanguage';
 import { useCart } from '../context/CartContext';
 
-const Logo: React.FC<{ className?: string }> = ({ className = '' }) => (
+const Logo = ({ className = '' }) => (
   <img
     src="/logo.png"
     alt="Chef Alfreej"
@@ -20,7 +20,7 @@ const navLinks = [
   { key: 'nav.locations', href: '#locations' },
 ];
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
   const { t } = useTranslation();
   const { isRTL, isArabic, toggleLanguage } = useLanguage();
   const { itemCount, setCartOpen } = useCart();
@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
 
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (href) => {
     setMobileOpen(false);
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: 'smooth' });

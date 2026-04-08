@@ -5,7 +5,7 @@ import ArabesquePattern from './ArabesquePattern';
 
 const WHATSAPP_NUMBER = '97474466445';
 
-const BookingForm: React.FC = () => {
+const BookingForm = () => {
   const { isArabic } = useLanguage();
 
   const [form, setForm] = useState({
@@ -16,11 +16,11 @@ const BookingForm: React.FC = () => {
     notes: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const message = isArabic

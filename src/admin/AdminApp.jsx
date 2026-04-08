@@ -5,34 +5,24 @@ import MenuAvailability from './pages/MenuAvailability';
 import OrderHistory from './pages/OrderHistory';
 import UserSettings from './pages/UserSettings';
 import Management from './pages/Management';
-import { getUsers, saveUsers, KEYS, StoredUser } from './utils/storage';
-
-export type Role = 'kitchen' | 'manager';
-export type Page = 'orders' | 'menu' | 'history' | 'settings' | 'management';
-
-export interface AdminSession {
-  username: string;
-  role: Role;
-  displayName: string;
-}
+import { getUsers, saveUsers, KEYS } from './utils/storage';
 
 export { getUsers, saveUsers };
-export type { StoredUser };
 
 export default function AdminApp() {
-  const [session, setSession] = useState<AdminSession | null>(() => {
+  const [session, setSession] = useState(() => {
     try {
       const s = localStorage.getItem(KEYS.SESSION);
       return s ? JSON.parse(s) : null;
     } catch { return null; }
   });
-  const [page, setPage] = useState<Page>('orders');
+  const [page, setPage] = useState('orders');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPw, setShowPw] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     const users = getUsers();
     const key = username.toLowerCase().trim();
@@ -41,7 +31,7 @@ export default function AdminApp() {
       setError('Invalid username or password');
       return;
     }
-    const s: AdminSession = { username: key, role: user.role, displayName: user.displayName };
+    const s = { username: key, role: user.role, displayName: user.displayName };
     localStorage.setItem(KEYS.SESSION, JSON.stringify(s));
     setSession(s);
     setError('');
@@ -55,7 +45,7 @@ export default function AdminApp() {
     setPassword('');
   };
 
-  const updateSession = (s: AdminSession) => {
+  const updateSession = (s) => {
     localStorage.setItem(KEYS.SESSION, JSON.stringify(s));
     setSession(s);
   };

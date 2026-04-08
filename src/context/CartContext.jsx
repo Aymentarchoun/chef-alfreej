@@ -1,39 +1,19 @@
 import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
-import type { MenuItem } from '../data/menuData';
 
-export interface CartItem {
-  item: MenuItem;
-  quantity: number;
-}
+const CartContext = createContext(null);
 
-interface CartContextType {
-  items: CartItem[];
-  addItem: (item: MenuItem) => void;
-  removeItem: (itemId: string) => void;
-  updateQuantity: (itemId: string, qty: number) => void;
-  clearCart: () => void;
-  itemCount: number;
-  subtotal: number;
-  isCartOpen: boolean;
-  setCartOpen: (open: boolean) => void;
-  isCheckoutOpen: boolean;
-  setCheckoutOpen: (open: boolean) => void;
-}
-
-const CartContext = createContext<CartContextType | null>(null);
-
-export const useCart = (): CartContextType => {
+export const useCart = () => {
   const ctx = useContext(CartContext);
   if (!ctx) throw new Error('useCart must be used within CartProvider');
   return ctx;
 };
 
-export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [items, setItems] = useState<CartItem[]>([]);
+export const CartProvider = ({ children }) => {
+  const [items, setItems] = useState([]);
   const [isCartOpen, setCartOpen] = useState(false);
   const [isCheckoutOpen, setCheckoutOpen] = useState(false);
 
-  const addItem = useCallback((menuItem: MenuItem) => {
+  const addItem = useCallback((menuItem) => {
     setItems((prev) => {
       const existing = prev.find((ci) => ci.item.id === menuItem.id);
       if (existing) {
@@ -45,11 +25,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   }, []);
 
-  const removeItem = useCallback((itemId: string) => {
+  const removeItem = useCallback((itemId) => {
     setItems((prev) => prev.filter((ci) => ci.item.id !== itemId));
   }, []);
 
-  const updateQuantity = useCallback((itemId: string, qty: number) => {
+  const updateQuantity = useCallback((itemId, qty) => {
     if (qty <= 0) {
       setItems((prev) => prev.filter((ci) => ci.item.id !== itemId));
     } else {

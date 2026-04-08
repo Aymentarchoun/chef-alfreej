@@ -2,17 +2,15 @@ import React, { useState } from 'react';
 import { menuItems, mainSections } from '../../data/menuData';
 import { getAvailability, saveAvailability } from '../utils/storage';
 
-type Filter = 'all' | 'available' | 'unavailable';
-
 export default function MenuAvailability() {
-  const [availability, setAvailability] = useState<Record<string, boolean>>(getAvailability);
+  const [availability, setAvailability] = useState(getAvailability);
   const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState<Filter>('all');
+  const [filter, setFilter] = useState('all');
   const [activeSection, setActiveSection] = useState('all');
 
-  const isAvail = (id: string) => availability[id] !== false;
+  const isAvail = (id) => availability[id] !== false;
 
-  const toggle = (id: string) => {
+  const toggle = (id) => {
     const updated = { ...availability, [id]: !isAvail(id) };
     setAvailability(updated);
     saveAvailability(updated);
@@ -37,8 +35,8 @@ export default function MenuAvailability() {
 
   const unavailCount = menuItems.filter(i => !isAvail(i.id)).length;
 
-  const markAll = (available: boolean) => {
-    const map: Record<string, boolean> = {};
+  const markAll = (available) => {
+    const map = {};
     menuItems.forEach(i => { map[i.id] = available; });
     setAvailability(map);
     saveAvailability(map);
@@ -86,7 +84,7 @@ export default function MenuAvailability() {
         />
 
         {/* Availability filter */}
-        {(['all', 'available', 'unavailable'] as Filter[]).map(f => (
+        {['all', 'available', 'unavailable'].map(f => (
           <button
             key={f}
             onClick={() => setFilter(f)}

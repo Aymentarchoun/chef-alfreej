@@ -5,6 +5,5 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    // Serve index.html for any path (SPA fallback covers /admin)
   },
 })

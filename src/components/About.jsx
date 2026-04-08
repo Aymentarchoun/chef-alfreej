@@ -10,7 +10,7 @@ const stats = [
   { valueKey: 'about.stat4Value', labelKey: 'about.stat4Label', accent: false },
 ];
 
-const About: React.FC = () => {
+const About = () => {
   const { t } = useTranslation();
   const { isRTL } = useLanguage();
 

@@ -5,7 +5,7 @@ import { useLanguage } from '../hooks/useLanguage';
 
 const WHATSAPP_NUMBER = '97474466445';
 
-const CartDrawer: React.FC = () => {
+const CartDrawer = () => {
   const { items, removeItem, updateQuantity, clearCart, itemCount, subtotal, isCartOpen, setCartOpen, setCheckoutOpen } =
     useCart();
   const { isArabic } = useLanguage();

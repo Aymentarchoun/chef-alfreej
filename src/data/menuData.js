@@ -1,39 +1,7 @@
-export interface MenuItem {
-  id: string;
-  nameAr: string;
-  nameEn: string;
-  descriptionAr: string;
-  descriptionEn: string;
-  price: number | 'market';
-  promoPrice?: number;
-  emoji: string;
-  image?: string;          // optional real photo path
-  category: string;       // main section key
-  subcategory: string;    // subcategory key
-}
 
-export interface SubCategory {
-  key: string;
-  nameAr: string;
-  nameEn: string;
-  icon: string;
-}
 
-export interface MainSection {
-  key: string;
-  nameAr: string;
-  nameEn: string;
-  color: string;           // tailwind color class
-  bgClass: string;         // button bg
-  activeBg: string;        // active state
-  borderClass: string;
-  icon: string;
-  subcategories: SubCategory[];
-  isLink?: boolean;        // for special orders
-  linkTarget?: string;     // section id to scroll to
-}
 
-export const mainSections: MainSection[] = [
+export const mainSections = [
   {
     key: 'azeema',
     nameAr: 'عزايم',
@@ -98,7 +66,7 @@ export const mainSections: MainSection[] = [
   },
 ];
 
-export const menuItems: MenuItem[] = [
+export const menuItems = [
   // ═══════════════════════════════════════════════════════
   // AZEEMA عزايم
   // ═══════════════════════════════════════════════════════

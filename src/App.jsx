@@ -11,7 +11,7 @@ import CartBar from './components/CartBar';
 import CartDrawer from './components/CartDrawer';
 import Checkout from './components/Checkout';
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <>
       <Navbar />

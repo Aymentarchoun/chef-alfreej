@@ -3,27 +3,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../hooks/useLanguage';
 
-type DeliveryOption = 'pickup' | 'delivery';
-type PaymentMethod = 'cash' | 'card' | 'pay_later';
-type Step = 'review' | 'details' | 'confirmed';
-type LocationStatus = 'idle' | 'loading' | 'found' | 'error';
-
 const DELIVERY_FEE = 10;
 const PAY_LATER_THRESHOLD = 800;
 
-const Checkout: React.FC = () => {
+const Checkout = () => {
   const { items, subtotal, clearCart, isCheckoutOpen, setCheckoutOpen } = useCart();
   const { isArabic } = useLanguage();
 
-  const [step, setStep] = useState<Step>('review');
-  const [deliveryOption, setDeliveryOption] = useState<DeliveryOption>('pickup');
+  const [step, setStep] = useState('review');
+  const [deliveryOption, setDeliveryOption] = useState('pickup');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [locationStatus, setLocationStatus] = useState<LocationStatus>('idle');
+  const [locationStatus, setLocationStatus] = useState('idle');
   const [locationAddress, setLocationAddress] = useState('');
-  const [locationCoords, setLocationCoords] = useState<{ lat: number; lng: number } | null>(null);
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cash');
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [locationCoords, setLocationCoords] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState('cash');
+  const [errors, setErrors] = useState({});
 
   const detectLocation = () => {
     if (!navigator.geolocation) {
@@ -73,7 +68,7 @@ const Checkout: React.FC = () => {
   };
 
   const validate = () => {
-    const errs: Record<string, string> = {};
+    const errs = {};
     if (!name.trim()) errs.name = isArabic ? 'الاسم مطلوب' : 'Name is required';
     if (!phone.trim()) errs.phone = isArabic ? 'رقم الهاتف مطلوب' : 'Phone is required';
     if (deliveryOption === 'delivery' && locationStatus !== 'found')

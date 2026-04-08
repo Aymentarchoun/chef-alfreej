@@ -1,38 +1,36 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { menuItems as baseItems, mainSections } from '../../data/menuData';
 import {
   getOverrides, saveOverrides, getAdditions, saveAdditions,
   getCustomSections, saveCustomSections,
   getCustomSubcategories, saveCustomSubcategories,
-  MenuOverride, AddedItem, CustomSection, CustomSubcategory,
 } from '../utils/storage';
 
-type EditTarget = { type: 'base'; id: string } | { type: 'added'; id: string } | null;
 
-const EMPTY_FORM = (): Omit<AddedItem, 'id'> => ({
+const EMPTY_FORM = () => ({
   nameAr: '', nameEn: '', descriptionAr: '', descriptionEn: '',
   price: 0, promoPrice: undefined, emoji: '🍽️', image: '',
   category: 'daily', subcategory: 'meals',
 });
 
-const EMPTY_SECTION = (): Omit<CustomSection, 'key'> => ({ nameAr: '', nameEn: '', icon: '🍽️' });
-const EMPTY_SUBCAT  = (): Omit<CustomSubcategory, 'key'> => ({ nameAr: '', nameEn: '', icon: '🍽️', sectionKey: '' });
+const EMPTY_SECTION = () => ({ nameAr: '', nameEn: '', icon: '🍽️' });
+const EMPTY_SUBCAT  = () => ({ nameAr: '', nameEn: '', icon: '🍽️', sectionKey: '' });
 
 const baseSections = mainSections.filter(s => !s.isLink);
 
-function buildSubcatMap(customSubcats: CustomSubcategory[]) {
-  const map: Record<string, string> = {};
+function buildSubcatMap(customSubcats) {
+  const map = {};
   mainSections.forEach(s => s.subcategories.forEach(sc => { map[sc.key] = sc.nameEn; }));
   customSubcats.forEach(sc => { map[sc.key] = sc.nameEn; });
   return map;
 }
 
 export default function Management() {
-  const [overrides, setOverrides]         = useState<Record<string, MenuOverride>>(getOverrides);
-  const [additions, setAdditions]         = useState<AddedItem[]>(getAdditions);
-  const [customSections, setCustomSections]   = useState<CustomSection[]>(getCustomSections);
-  const [customSubcats, setCustomSubcats]   = useState<CustomSubcategory[]>(getCustomSubcategories);
-  const [editTarget, setEditTarget]       = useState<EditTarget>(null);
+  const [overrides, setOverrides]         = useState(getOverrides);
+  const [additions, setAdditions]         = useState(getAdditions);
+  const [customSections, setCustomSections]   = useState(getCustomSections);
+  const [customSubcats, setCustomSubcats]   = useState(getCustomSubcategories);
+  const [editTarget, setEditTarget]       = useState(null);
   const [form, setForm]                   = useState(EMPTY_FORM());
   const [showAdd, setShowAdd]             = useState(false);
 
@@ -53,7 +51,7 @@ export default function Management() {
       subcategories: customSubcats.filter(sc => sc.sectionKey === s.key).map(sc => ({
         key: sc.key, nameAr: sc.nameAr, nameEn: sc.nameEn, icon: sc.icon,
       })),
-      isLink: false as const,
+      isLink: false,
     })),
   ];
 
@@ -70,7 +68,7 @@ export default function Management() {
     flash('Section added!');
   };
 
-  const deleteSection = (key: string) => {
+  const deleteSection = (key) => {
     const updated = customSections.filter(s => s.key !== key);
     setCustomSections(updated);
     saveCustomSections(updated);
@@ -92,7 +90,7 @@ export default function Management() {
     flash('Subcategory added!');
   };
 
-  const deleteSubcat = (key: string) => {
+  const deleteSubcat = (key) => {
     const updated = customSubcats.filter(sc => sc.key !== key);
     setCustomSubcats(updated);
     saveCustomSubcategories(updated);
@@ -103,11 +101,11 @@ export default function Management() {
   const [activeSection, setActiveSection] = useState('all');
   const [saved, setSaved] = useState('');
 
-  const flash = (msg: string) => { setSaved(msg); setTimeout(() => setSaved(''), 2000); };
+  const flash = (msg) => { setSaved(msg); setTimeout(() => setSaved(''), 2000); };
 
   // ── Edit base item ────────────────────────────────────────────────────────
-  const startEdit = (id: string) => {
-    const base = baseItems.find(i => i.id === id)!;
+  const startEdit = (id) => {
+    const base = baseItems.find(i => i.id === id);
     const ov   = overrides[id] ?? {};
     setEditTarget({ type: 'base', id });
     setForm({
@@ -115,7 +113,7 @@ export default function Management() {
       nameEn:        ov.nameEn        ?? base.nameEn,
       descriptionAr: ov.descriptionAr ?? base.descriptionAr,
       descriptionEn: ov.descriptionEn ?? base.descriptionEn,
-      price:         (ov.price        ?? base.price) as number,
+      price:         (ov.price        ?? base.price),
       promoPrice:    ov.promoPrice !== undefined ? (ov.promoPrice ?? undefined) : base.promoPrice,
       emoji:         ov.emoji         ?? base.emoji,
       image:         ov.image         ?? base.image ?? '',
@@ -126,8 +124,8 @@ export default function Management() {
   };
 
   // ── Edit added item ───────────────────────────────────────────────────────
-  const startEditAdded = (id: string) => {
-    const item = additions.find(i => i.id === id)!;
+  const startEditAdded = (id) => {
+    const item = additions.find(i => i.id === id);
     setEditTarget({ type: 'added', id });
     setForm({ ...item, image: item.image ?? '' });
     setShowAdd(false);
@@ -138,8 +136,8 @@ export default function Management() {
   const saveEdit = () => {
     if (!editTarget) return;
     if (editTarget.type === 'base') {
-      const base = baseItems.find(i => i.id === editTarget.id)!;
-      const ov: MenuOverride = {};
+      const base = baseItems.find(i => i.id === editTarget.id);
+      const ov = {};
       if (form.nameAr        !== base.nameAr)        ov.nameAr        = form.nameAr;
       if (form.nameEn        !== base.nameEn)        ov.nameEn        = form.nameEn;
       if (form.descriptionAr !== base.descriptionAr) ov.descriptionAr = form.descriptionAr;
@@ -162,7 +160,7 @@ export default function Management() {
     flash('Saved!');
   };
 
-  const resetOverride = (id: string) => {
+  const resetOverride = (id) => {
     const updated = { ...overrides };
     delete updated[id];
     setOverrides(updated); saveOverrides(updated);
@@ -176,7 +174,7 @@ export default function Management() {
 
   const saveAdd = () => {
     if (!form.nameEn.trim() || !form.nameAr.trim()) return;
-    const newItem: AddedItem = {
+    const newItem = {
       ...form,
       id: `custom-${Date.now()}`,
       image: form.image || undefined,
@@ -188,7 +186,7 @@ export default function Management() {
     flash('Item added!');
   };
 
-  const deleteAdded = (id: string) => {
+  const deleteAdded = (id) => {
     const updated = additions.filter(i => i.id !== id);
     setAdditions(updated); saveAdditions(updated);
     flash('Deleted.');
@@ -196,8 +194,8 @@ export default function Management() {
 
   // ── All items combined ────────────────────────────────────────────────────
   const allItems = [
-    ...baseItems.map(i => ({ ...i, ...overrides[i.id], id: i.id, _type: 'base' as const })),
-    ...additions.map(i => ({ ...i, _type: 'added' as const })),
+    ...baseItems.map(i => ({ ...i, ...overrides[i.id], id: i.id, _type: 'base' })),
+    ...additions.map(i => ({ ...i, _type: 'added' })),
   ];
 
   const filtered = allItems.filter(i => {
@@ -214,7 +212,7 @@ export default function Management() {
   })).filter(g => g.items.length > 0);
 
   // ── Shared form renderer ─────────────────────────────────────────────────
-  const renderForm = (onSave: () => void, onCancel: () => void, isNew = false) => {
+  const renderForm = (onSave, onCancel, isNew = false) => {
     const subForSection = sections.find(s => s.key === form.category)?.subcategories ?? [];
     return (
       <div
@@ -235,7 +233,7 @@ export default function Management() {
               <input
                 type="text"
                 dir={dir}
-                value={(form as any)[key]}
+                value={form[key]}
                 onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
                 style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }}
                 className="w-full px-3 py-2 rounded-xl text-sm outline-none"

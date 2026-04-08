@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../hooks/useLanguage';
 
-const CartBar: React.FC = () => {
+const CartBar = () => {
   const { itemCount, subtotal, setCartOpen } = useCart();
   const { isArabic } = useLanguage();
 

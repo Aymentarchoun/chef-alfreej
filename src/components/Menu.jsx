@@ -16,7 +16,7 @@ const containerVariants = {
 };
 
 // Warm gradient palettes per subcategory for placeholder images
-const subcategoryGradients: Record<string, string> = {
+const subcategoryGradients = {
   slaughter:       'linear-gradient(160deg, #111111 0%, #2D1A00 50%, #C8963E 100%)',
   'azeema-fish':   'linear-gradient(160deg, #0A0A1A 0%, #15203D 50%, #2D4C8D 100%)',
   'azeema-chicken':'linear-gradient(160deg, #1A1A1A 0%, #3D2800 50%, #C8803E 100%)',
@@ -49,12 +49,12 @@ const ExternalLinkIcon = () => (
 
 const BUFFET_MIN_GUESTS = 15;
 
-const Menu: React.FC = () => {
+const Menu = () => {
   const { t } = useTranslation();
   const { isArabic } = useLanguage();
   const { addItem } = useCart();
-  const [activeSection, setActiveSection] = useState<string | null>(null);
-  const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState(null);
+  const [activeSubcategory, setActiveSubcategory] = useState(null);
   const [buffetGuests, setBuffetGuests] = useState(BUFFET_MIN_GUESTS);
 
   // Apply admin overrides, custom additions and availability
@@ -86,7 +86,7 @@ const Menu: React.FC = () => {
     ? menuItems.filter((item) => item.category === activeSection)
     : [];
 
-  const handleSectionClick = (sectionKey: string) => {
+  const handleSectionClick = (sectionKey) => {
     const section = mainSections.find((s) => s.key === sectionKey);
 
     // Special Orders → scroll to booking section
@@ -105,11 +105,11 @@ const Menu: React.FC = () => {
     }
   };
 
-  const handleSubcategoryClick = (subKey: string) => {
+  const handleSubcategoryClick = (subKey) => {
     setActiveSubcategory(activeSubcategory === subKey ? null : subKey);
   };
 
-  const formatPriceBadge = (price: number | 'market', promoPrice?: number) => {
+  const formatPriceBadge = (price, promoPrice) => {
     if (price === 'market') return null;
     const displayPrice = promoPrice ?? price;
     return (
@@ -121,7 +121,7 @@ const Menu: React.FC = () => {
   };
 
   // Color classes for section buttons
-  const sectionButtonStyles: Record<string, { active: string; inactive: string; text: string }> = {
+  const sectionButtonStyles = {
     azeema: {
       active: 'bg-gold text-black shadow-lg shadow-gold/30',
       inactive: 'border-gold/30 text-gold hover:bg-gold/10',
@@ -265,7 +265,7 @@ const Menu: React.FC = () => {
               >
                 {currentSection.subcategories.map(({ key, nameAr, nameEn, icon }) => {
                   const isSubActive = activeSubcategory === key;
-                  const styles = sectionButtonStyles[activeSection!];
+                  const styles = sectionButtonStyles[activeSection];
                   return (
                     <button
                       key={key}
@@ -381,7 +381,7 @@ const Menu: React.FC = () => {
                         </div>
                         <div className="flex justify-between text-white font-bold mt-1">
                           <span>{isArabic ? `الإجمالي (${buffetGuests} ضيف)` : `Total (${buffetGuests} guests)`}</span>
-                          <span className="text-gold">{(item.price as number) * buffetGuests} {isArabic ? 'ر.ق' : 'QR'}</span>
+                          <span className="text-gold">{item.price * buffetGuests} {isArabic ? 'ر.ق' : 'QR'}</span>
                         </div>
                       </div>
                     )}

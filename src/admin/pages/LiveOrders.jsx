@@ -1,23 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getOrders, saveOrders, Order } from '../utils/storage';
+import { getOrders, saveOrders } from '../utils/storage';
 import { enableSound, isSoundEnabled, playOrderChime } from '../utils/sound';
 
-const STATUS_STEPS: Order['status'][] = ['pending', 'preparing', 'ready', 'completed'];
+const STATUS_STEPS = ['pending', 'preparing', 'ready', 'completed'];
 
-const STATUS_META: Record<Order['status'], { label: string; bg: string; text: string; border: string }> = {
+const STATUS_META = {
   pending:   { label: 'Pending',    bg: 'rgba(234,179,8,0.12)',    text: '#facc15', border: 'rgba(234,179,8,0.3)'   },
   preparing: { label: 'Preparing',  bg: 'rgba(59,130,246,0.12)',   text: '#60a5fa', border: 'rgba(59,130,246,0.3)'  },
   ready:     { label: 'Ready ✓',    bg: 'rgba(34,197,94,0.12)',    text: '#4ade80', border: 'rgba(34,197,94,0.3)'   },
   completed: { label: 'Completed',  bg: 'rgba(255,255,255,0.04)',  text: 'rgba(255,255,255,0.3)', border: 'rgba(255,255,255,0.08)' },
 };
 
-const PAYMENT_LABEL: Record<string, string> = {
+const PAYMENT_LABEL = {
   cash: 'Cash or Fawran',
   card: 'Card Link',
   pay_later: 'Pay Later',
 };
 
-function timeSince(iso: string) {
+function timeSince(iso) {
   const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
   if (diff < 60) return `${diff}s ago`;
   if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
@@ -25,7 +25,7 @@ function timeSince(iso: string) {
 }
 
 export default function LiveOrders() {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState([]);
   const [soundOn, setSoundOn] = useState(isSoundEnabled);
   const prevPendingRef = useRef(0);
 
@@ -47,7 +47,7 @@ export default function LiveOrders() {
     return () => clearInterval(id);
   }, []);
 
-  const advanceStatus = (orderId: string) => {
+  const advanceStatus = (orderId) => {
     const all = getOrders();
     const updated = all.map(o => {
       if (o.id !== orderId) return o;
@@ -121,7 +121,7 @@ export default function LiveOrders() {
         {orders.map(order => {
           const meta = STATUS_META[order.status];
           const currentIdx = STATUS_STEPS.indexOf(order.status);
-          const nextStatus = STATUS_STEPS[currentIdx + 1] as Order['status'] | undefined;
+          const nextStatus = STATUS_STEPS[currentIdx + 1];
 
           return (
             <div

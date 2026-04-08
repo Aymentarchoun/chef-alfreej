@@ -1,13 +1,13 @@
-import React, { useState, useMemo } from 'react';
-import { getOrders, Order } from '../utils/storage';
+import { useState, useMemo } from 'react';
+import { getOrders } from '../utils/storage';
 
-const PAYMENT_LABEL: Record<string, string> = {
+const PAYMENT_LABEL = {
   cash: 'Cash or Fawran',
   card: 'Card Link',
   pay_later: 'Pay Later',
 };
 
-function fmt(iso: string) {
+function fmt(iso) {
   return new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
